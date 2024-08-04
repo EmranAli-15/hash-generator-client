@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { HiClipboardDocumentList, HiEye, HiEyeSlash } from "react-icons/hi2";
+import { TbLoader } from "react-icons/tb";
 import './App.css';
 import Modal from "./Modal";
 
@@ -9,6 +10,7 @@ export default function App() {
   const [eye, setEye] = useState(true);
   const [passErr, setPassErr] = useState("");
   const [saltErr, setSaltErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [password, setPassword] = useState("");
   const [saltRound, setSaltRound] = useState<number | string>(0);
@@ -24,6 +26,7 @@ export default function App() {
 
   const fn = (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setPassErr("");
     setSaltErr("");
 
@@ -39,7 +42,7 @@ export default function App() {
       return setSaltErr("Required salt-round 1-30 digit");
     };
 
-    fetch("http://localhost:5000/", {
+    fetch("https://hash-generator-omega.vercel.app/", {
       method: "POST",
       body: JSON.stringify({
         password,
@@ -51,7 +54,8 @@ export default function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setHash(data.password)
+        setHash(data.password);
+        setLoading(false);
       });
 
     setPassErr("");
@@ -61,6 +65,8 @@ export default function App() {
   const modalAction = () => {
     setModal(!modal);
   };
+
+
 
   return (
     <div className="h-screen w-full bg-[#101820FF] overflow-hidden font-sans">
@@ -108,8 +114,10 @@ export default function App() {
             </div>
 
             <div>
-              <button onClick={fn} type="submit" className="bg-[#006B38FF] py-[6px] px-4 rounded-lg font-semibold text-white text-[18px]">
-                GENERATE
+              <button onClick={fn} type="submit" className="bg-[#006B38FF] py-[6px] px-4 w-[120px] h-[40px] rounded-lg font-semibold text-white text-[18px] flex justify-center items-center">
+                {
+                  loading ? <TbLoader></TbLoader> : 'GENERATE'
+                }
               </button>
             </div>
 
