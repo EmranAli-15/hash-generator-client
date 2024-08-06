@@ -10,7 +10,7 @@ export default function Modal({ modal, setModal }: { modal: any, setModal: any }
     const [lan, setLan] = useState('EN');
 
     return (
-        <div className="relative">
+        <div className="relative text-black">
             <button onClick={() => setModal(!modal)} className="absolute right-0 translate-x-1/2 -translate-y-1/2 bg-white rounded-full">
                 <GiCancel size={28} className="rounded-full text-red-500"></GiCancel>
             </button>
