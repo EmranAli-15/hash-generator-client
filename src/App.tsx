@@ -37,23 +37,27 @@ export default function App() {
     setPassErr("");
     setSaltErr("");
 
+    const saltRoundNumber = Number(saltRound);
+
     const passArray = password.split("");
 
     if (passArray.includes(' ')) {
       return setPassErr("Empty space not allow");
     };
     if (password.length < 3 || password.length > 10) {
-      return setPassErr("Required password 3-10 digit");
+      setLoading(false);
+      return setPassErr("Required password 3-10 character");
     };
-    if (saltRound as number < 1 || saltRound as number > 30) {
-      return setSaltErr("Required salt-round 1-30 digit");
+    if (saltRoundNumber as number < 1 || saltRoundNumber as number > 30) {
+      setLoading(false);
+      return setSaltErr("Required salt-round 1-30 number");
     };
 
-    fetch("https://hash-generator-omega.vercel.app/", {
+    fetch("https://hash-generator-omega.vercel.app", {
       method: "POST",
       body: JSON.stringify({
         password,
-        saltRound
+        saltRound: saltRoundNumber
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
@@ -63,7 +67,10 @@ export default function App() {
       .then((data) => {
         setHash(data.password);
         setLoading(false);
-      });
+      })
+      .catch(() => {
+        setLoading(false);
+      })
 
     setPassErr("");
     setSaltErr("");
