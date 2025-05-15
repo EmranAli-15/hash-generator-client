@@ -1,1 +1,6 @@
-Live link : ``` https://66b21b1fc751a00bbed0cbb8--dreamy-frangollo-bc87d7.netlify.app/ ```
+## Complex text generator
+
+### Live : ```https://dreamy-frangollo-bc87d7.netlify.app/```
+
+### Technology
+React, TailwindCSS, TypeScript
